@@ -1,8 +1,17 @@
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <p>
+        <Link to="/sign-up">Регистрация</Link>
+      </p>
+      <p>
+        <Link to="/login">Вход</Link>
+      </p>
+    </div>
+  );
+};
 
-export default Home
+export default Home;
