@@ -24,7 +24,7 @@ const WrapperContainer = styled.div`
 `;
 const Form = styled.form`
   border: 1px solid var(--form-color-opacity);
-  margin-top: 2em;
+  margin: 2em 0;
   width: 25em;
   display: grid;
   grid-gap: 1em;
