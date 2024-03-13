@@ -20,14 +20,30 @@ const RegisterForm = () => {
     userName: "",
     userPass: "",
   });
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+  const [validInput, setValidInput] = useState<string>("");
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
+    const allFieldsFilled = Object.values({
+      ...valueInput,
+      [name]: value,
+    }).every((val) => val.trim() !== "");
+
+    const isPasswordValid =
+      name === "userPass" ? value.trim().length >= 6 : true;
+
+    setButtonDisabled(!allFieldsFilled || !isPasswordValid);
   };
-  const clickHandle = () => {};
+  const clickHandle = () => {
+    if (condition) {
+      
+    }
+  };
   return (
     <FormCard>
       <SubHeading>
@@ -56,7 +72,7 @@ const RegisterForm = () => {
       />
       <_Input
         type="text"
-        name="UserPass"
+        name="userPass"
         onChange={changeHandle}
         value={valueInput.userPass}
         label="Пароль"
@@ -81,9 +97,14 @@ const RegisterForm = () => {
           Политику в отношении файлов cookie.
         </a>
       </Description>
-      <_Button onClick={clickHandle} variant="contained">
+      <_Button
+        disabled={buttonDisabled}
+        onClick={clickHandle}
+        variant="contained"
+      >
         Регистрация
       </_Button>
+      {validInput && <ValidErrorText>{validInput}</ValidErrorText>}
       <TextWithLine>
         <div />
         <span>ИЛИ</span>
@@ -109,6 +130,14 @@ const Description = styled.p`
   font-size: var(--fontsize-span);
   text-align: center;
   color: rgb(90 90 90);
+`;
+
+const ValidErrorText = styled.p`
+  text-align: center;
+  max-width: 100%;
+  border: 1px solid;
+  margin: 2em 0;
+  color: var(--error-text-color);
 `;
 
 const TextWithLine = styled.div`

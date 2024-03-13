@@ -16,12 +16,28 @@ const LoginForm: React.FC = () => {
     userName: "",
     userPass: "",
   });
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    if (
+      name === "userName" &&
+      value.trim() !== "" &&
+      valueInput.userPass.trim().length >= 6
+    ) {
+      setButtonDisabled(false);
+    } else if (
+      name === "userPass" &&
+      value.trim().length >= 6 &&
+      valueInput.userName.trim() !== ""
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
   };
   const clickHandle = () => {};
   return (
@@ -41,7 +57,11 @@ const LoginForm: React.FC = () => {
         value={valueInput.userPass}
         name="userPass"
       />
-      <_Button variant="contained" onClick={clickHandle}>
+      <_Button
+        disabled={buttonDisabled}
+        variant="contained"
+        onClick={clickHandle}
+      >
         Войти
       </_Button>
       <TextWithLine>
@@ -81,4 +101,3 @@ const SignupText = styled.p`
     cursor: pointer;
   }
 `;
-
