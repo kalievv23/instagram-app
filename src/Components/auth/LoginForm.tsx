@@ -4,15 +4,12 @@ import { ChangeEvent, useState } from "react";
 import _Button from "../UI/Button";
 import { useNavigate } from "react-router-dom";
 import FormCard from "../FormCard";
+import {LoginModel} from "../../Domain/Models/LoginModel.ts";
 
-interface initialState {
-  userName: string;
-  userPass: string;
-}
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
-  const [valueInput, setValueInput] = useState<initialState>({
+  const [valueInput, setValueInput] = useState<LoginModel>({
     userName: "",
     userPass: "",
   });
@@ -40,6 +37,7 @@ const LoginForm: React.FC = () => {
     }
   };
   const clickHandle = () => {};
+
   return (
     <FormCard>
       <_Input
