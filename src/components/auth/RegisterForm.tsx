@@ -4,17 +4,12 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {RegisterModel} from "../../Domain/Models/RegisterModel.ts";
 
-interface initialState {
-  userEmail: string;
-  userFullName: string;
-  userName: string;
-  userPass: string;
-}
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const [valueInput, setValueInput] = useState<initialState>({
+  const [valueInput, setValueInput] = useState<RegisterModel>({
     userEmail: "",
     userFullName: "",
     userName: "",
