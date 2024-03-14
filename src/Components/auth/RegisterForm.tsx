@@ -4,7 +4,7 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {RegisterModel} from "../../Domain/Models/RegisterModel.ts";
+import {RegisterModel} from "../../Domain/Models/RegisterModel";
 
 
 const RegisterForm = () => {
@@ -50,11 +50,6 @@ const RegisterForm = () => {
         onChange={changeHandle}
         value={valueInput.userEmail}
         label="Электронный адрес"
-     z     type="text"
-        name="userFullName"
-        onChange={changeHandle}
-        value={valueInput.userFullName}
-        label="Имя и фамилия"
       />
       <_Input
         type="text"

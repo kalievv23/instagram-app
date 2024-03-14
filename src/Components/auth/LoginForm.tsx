@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import _Button from "../UI/Button";
 import { useNavigate } from "react-router-dom";
 import FormCard from "../FormCard";
-import {LoginModel} from "../../Domain/Models/LoginModel.ts";
+import {LoginModel} from "../../Domain/Models/LoginModel";
 
 
 const LoginForm: React.FC = () => {
