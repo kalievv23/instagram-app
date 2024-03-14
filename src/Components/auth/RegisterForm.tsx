@@ -31,7 +31,7 @@ const RegisterForm = () => {
             .then((response) => {
                 console.log(response);
             })
-            
+
             .catch((e) => {
                 const data = e.response.data;
                 if ("type" in data && "title" in data) {
