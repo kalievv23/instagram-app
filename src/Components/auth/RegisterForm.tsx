@@ -4,26 +4,19 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { RegisterModel } from "../../Domain/Models/RegisterModel.ts";
-import { AccountService } from "../../ApiServices/AccountService.ts";
-import { Error } from "../../Domain/Responses/ErrorValidationRegister.ts";
-const RegisterForm = () => {
-  const { Register } = AccountService;
-  const navigate = useNavigate();
+import {RegisterModel} from "../../Domain/Models/RegisterModel.ts";
 
-  const [errors, setErrors] = useState<Error>();
-  const [registerModel, setValueInput] = useState<RegisterModel>({
+
+const RegisterForm = () => {
+  const navigate = useNavigate();
+  const [valueInput, setValueInput] = useState<RegisterModel>({
     userEmail: "",
     userFullName: "",
     userName: "",
     userPass: "",
   });
-<<<<<<< HEAD
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [validInput, setValidInput] = useState<string>("");
-=======
-
->>>>>>> 0e6eadfd3646ae4cb5fb032995cd32c5803a10d9
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({
@@ -46,22 +39,6 @@ const RegisterForm = () => {
       
     // }
   };
-<<<<<<< HEAD
-=======
-
-  const clickHandle = () => {
-    Register(registerModel)
-      .then((response) => {
-        console.log("response");
-      })
-      .catch((e) => {
-        const data = e.response.data;
-        if ("type" in data && "title" in data) {
-          setErrors(data.errors);
-        }
-      });
-  };
->>>>>>> 0e6eadfd3646ae4cb5fb032995cd32c5803a10d9
   return (
     <FormCard>
       <SubHeading>
@@ -71,42 +48,28 @@ const RegisterForm = () => {
         type="email"
         name="userEmail"
         onChange={changeHandle}
-        value={registerModel.userEmail}
+        value={valueInput.userEmail}
         label="Электронный адрес"
-      />
-      {errors?.EmailAddress.map((error) => (
-        <div>{error}</div>
-      ))}
-      <_Input
-        type="text"
+     z     type="text"
         name="userFullName"
         onChange={changeHandle}
-        value={registerModel.userFullName}
+        value={valueInput.userFullName}
         label="Имя и фамилия"
       />
-      {errors?.FullName.map((error) => (
-        <div>{error}</div>
-      ))}
       <_Input
         type="text"
         name="userName"
         onChange={changeHandle}
-        value={registerModel.userName}
+        value={valueInput.userName}
         label="Имя пользователя"
       />
-      {errors?.UserName.map((error) => (
-        <div>{error}</div>
-      ))}
       <_Input
         type="text"
         name="userPass"
         onChange={changeHandle}
-        value={registerModel.userPass}
+        value={valueInput.userPass}
         label="Пароль"
       />
-      {errors?.Password.map((error) => (
-        <div>{error}</div>
-      ))}
       <Description>
         Регистрируясь, вы принимаете наши{" "}
         <a
