@@ -32,7 +32,7 @@ const RegisterForm = () => {
             .catch((e) => {
                 console.log(e);
                 // if ("type" in data && "title" in data) {
-                //     setErrors(data.errors);
+
                 // }
             });
     };
