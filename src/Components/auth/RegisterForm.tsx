@@ -4,106 +4,121 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import {RegisterModel} from "../../Domain/Models/RegisterModel";
-
-
+import type { RegisterModel } from "../../Domain/Models/RegisterModel";
+import  { AccountService } from "../../ApiServices/AccountService";
+import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
 const RegisterForm = () => {
-  const navigate = useNavigate();
-  const [valueInput, setValueInput] = useState<RegisterModel>({
-    userEmail: "",
-    userFullName: "",
-    userName: "",
-    userPass: "",
-  });
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-  const [validInput, setValidInput] = useState<string>("");
-  const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setValueInput((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const { Register } = AccountService;
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState<Error>();
+    const [registerModel, setValueInput] = useState<RegisterModel>({
+        userEmail: "",
+        userFullName: "",
+        userName: "",
+        userPass: "",
+    });
 
-    const allFieldsFilled = Object.values({
-      ...valueInput,
-      [name]: value,
-    }).every((val) => val.trim() !== "");
+    const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setValueInput((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
 
-    const isPasswordValid =
-      name === "userPass" ? value.trim().length >= 6 : true;
+    const clickHandle = () => {
+        Register(registerModel)
+            .then((response) => {
+                console.log(response);
+            })
 
-    setButtonDisabled(!allFieldsFilled || !isPasswordValid);
-  };
-  const clickHandle = () => {
-    // if (condition) {
-      
-    // }
-  };
-  return (
-    <FormCard>
-      <SubHeading>
-        Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
-      </SubHeading>
-      <_Input
-        type="email"
-        name="userEmail"
-        onChange={changeHandle}
-        value={valueInput.userEmail}
-        label="Электронный адрес"
-      />
-      <_Input
-        type="text"
-        name="userName"
-        onChange={changeHandle}
-        value={valueInput.userName}
-        label="Имя пользователя"
-      />
-      <_Input
-        type="text"
-        name="userPass"
-        onChange={changeHandle}
-        value={valueInput.userPass}
-        label="Пароль"
-      />
-      <Description>
-        Регистрируясь, вы принимаете наши{" "}
-        <a
-          target="blank"
-          href="https://help.instagram.com/581066165581870/?locale=ru_RU"
-        >
-          Условия
-        </a>
-        ,{" "}
-        <a target="blank" href="https://www.facebook.com/privacy/policy">
-          Политику конфиденциальности
-        </a>{" "}
-        и{" "}
-        <a
-          target="blank"
-          href="https://privacycenter.instagram.com/policies/cookies/"
-        >
-          Политику в отношении файлов cookie.
-        </a>
-      </Description>
-      <_Button
-        disabled={buttonDisabled}
-        onClick={clickHandle}
-        variant="contained"
-      >
-        Регистрация
-      </_Button>
-      {validInput && <ValidErrorText>{validInput}</ValidErrorText>}
-      <TextWithLine>
-        <div />
-        <span>ИЛИ</span>
-        <div />
-      </TextWithLine>
-      <LoginText>
-        Есть аккаунт?
-        <span onClick={() => navigate("/login")}> Вход</span>
-      </LoginText>
-    </FormCard>
-  );
+            .catch((e) => {
+                const data = e.response.data;
+                if ("type" in data && "title" in data) {
+                    setErrors(data.errors);
+                }
+            });
+    };
+    console.log(errors)
+    return (
+        <FormCard>
+            <SubHeading>
+                Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
+            </SubHeading>
+            <_Input
+                type="email"
+                name="userEmail"
+                onChange={changeHandle}
+                value={registerModel.userEmail}
+                label="Электронный адрес"
+            />
+            {errors?.EmailAddress.map((error) => (
+                <div>{error}</div>
+            ))}
+            <_Input
+                type="text"
+                name="userFullName"
+                onChange={changeHandle}
+                value={registerModel.userFullName}
+                label="Имя и фамилия"
+            />
+            {errors?.FullName.map((error) => (
+                <div>{error}</div>
+            ))}
+            <_Input
+                type="text"
+                name="userName"
+                onChange={changeHandle}
+                value={registerModel.userName}
+                label="Имя пользователя"
+            />
+            {errors?.UserName.map((error) => (
+                <div>{error}</div>
+            ))}
+            <_Input
+                type="text"
+                name="userPass"
+                onChange={changeHandle}
+                value={registerModel.userPass}
+                label="Пароль"
+            />
+            {errors?.Password.map((error) => (
+                <div>{error}</div>
+            ))}
+            <Description>
+                Регистрируясь, вы принимаете наши{" "}
+                <a
+                    target="blank"
+                    href="https://help.instagram.com/581066165581870/?locale=ru_RU"
+                >
+                    Условия
+                </a>
+                ,{" "}
+                <a target="blank" href="https://www.facebook.com/privacy/policy">
+                    Политику конфиденциальности
+                </a>{" "}
+                и{" "}
+                <a
+                    target="blank"
+                    href="https://privacycenter.instagram.com/policies/cookies/"
+                >
+                    Политику в отношении файлов cookie.
+                </a>
+            </Description>
+            <_Button onClick={clickHandle} variant="contained">
+                Регистрация
+            </_Button>
+            <TextWithLine>
+                <div />
+                <span>ИЛИ</span>
+                <div />
+            </TextWithLine>
+            <LoginText>
+                Есть аккаунт?
+                <span onClick={() => navigate("/login")}> Вход</span>
+            </LoginText>
+        </FormCard>
+    );
 };
 
 export default RegisterForm;
@@ -118,14 +133,6 @@ const Description = styled.p`
   font-size: var(--fontsize-span);
   text-align: center;
   color: rgb(90 90 90);
-`;
-
-const ValidErrorText = styled.p`
-  text-align: center;
-  max-width: 100%;
-  border: 1px solid;
-  margin: 2em 0;
-  color: var(--error-text-color);
 `;
 
 const TextWithLine = styled.div`
