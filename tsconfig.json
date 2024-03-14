@@ -1,32 +1,3 @@
-//{
-//  "compilerOptions": {
-//    "target": "ES2020",
-//    "useDefineForClassFields": true,
-//    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-//    "module": "ESNext",
-//    "skipLibCheck": true,
-//
-//    /* Bundler mode */
-//    "moduleResolution": "bundler",
-//    "allowImportingTsExtensions": true,
-//    "resolveJsonModule": true,
-//    "isolatedModules": true,
-//    "noEmit": true,
-//    "jsx": "react-jsx",
-//
-//    /* Linting */
-//    "strict": true,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true,
-//    "noFallthroughCasesInSwitch": true
-//  },
-//  "include": [
-//    "src"
-//  ],
-//  "references": [{ "path": "./tsconfig.node.json" }]
-//}
-
-
 {
   "compilerOptions": {
     "target": "es5",
@@ -47,7 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    /// запрет для установки свойствам undefined
+    "exactOptionalPropertyTypes": true,
+    /// чтобы указывал на ошибку когда нету у case break or return чтобы не переходил след варианту
+    "noFallthroughCasesInSwitch": true,
+    // obj["someProp] -> return type : someType | undefined если его не вкл то возвращался бы просто someType
+    "noUncheckedIndexedAccess": true,
   },
   "include": [
     "src"

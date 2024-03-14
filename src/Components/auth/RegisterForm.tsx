@@ -10,7 +10,6 @@ import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
 const RegisterForm = () => {
     const { Register } = AccountService;
     const navigate = useNavigate();
-
     const [errors, setErrors] = useState<Error>();
     const [registerModel, setValueInput] = useState<RegisterModel>({
         userEmail: "",
@@ -39,6 +38,7 @@ const RegisterForm = () => {
                 }
             });
     };
+    console.log(errors)
     return (
         <FormCard>
             <SubHeading>
