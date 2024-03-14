@@ -10,6 +10,7 @@
   font-family: "Montserrat", sans-serif;
   --btn-color-primary: #1976d2;
   --form-color-opacity: rgb(190, 190, 190);
+  --error-text-color: #ed4956;
   --fontsize-h2: 40px;
   --fontsize-h3: 28px;
   --fontsize-p: 16px;
