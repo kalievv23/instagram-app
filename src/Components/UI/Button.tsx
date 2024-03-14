@@ -21,6 +21,7 @@ const _Button: React.FC<ButtonProps> = ({
       className={className}
       disabled={disabled}
       variant={variant}
+      style={{ cursor: "pointer" }}
     >
       {children}
     </Button>
