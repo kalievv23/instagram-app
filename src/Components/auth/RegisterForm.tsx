@@ -10,20 +10,17 @@ import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
 const RegisterForm = () => {
     const { Register } = AccountService;
     const navigate = useNavigate();
+    const register : RegisterModel = {emailAddress:"",fullName:"",password:"",userName:""};
     const [errors, setErrors] = useState<Error>();
-    const [registerModel, setValueInput] = useState<RegisterModel>({
-        userEmail: "",
-        userFullName: "",
-        userName: "",
-        userPass: "",
-    });
+    const [registerModel, setValueInput] = useState<RegisterModel>(
+        register
+    );
 
     const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setValueInput((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setValueInput((prevState) => (
+            {...prevState,[name]:value}
+        ));
     };
 
     const clickHandle = () => {
@@ -33,10 +30,10 @@ const RegisterForm = () => {
             })
 
             .catch((e) => {
-                const data = e.response.data;
-                if ("type" in data && "title" in data) {
-                    setErrors(data.errors);
-                }
+                console.log(e);
+                // if ("type" in data && "title" in data) {
+                //     setErrors(data.errors);
+                // }
             });
     };
     console.log(errors)
@@ -47,9 +44,9 @@ const RegisterForm = () => {
             </SubHeading>
             <_Input
                 type="email"
-                name="userEmail"
+                name="emailAddress"
                 onChange={changeHandle}
-                value={registerModel.userEmail}
+                value={registerModel.emailAddress}
                 label="Электронный адрес"
             />
             {errors?.EmailAddress.map((error) => (
@@ -57,9 +54,9 @@ const RegisterForm = () => {
             ))}
             <_Input
                 type="text"
-                name="userFullName"
+                name="fullName"
                 onChange={changeHandle}
-                value={registerModel.userFullName}
+                value={registerModel.fullName}
                 label="Имя и фамилия"
             />
             {errors?.FullName.map((error) => (
@@ -77,9 +74,9 @@ const RegisterForm = () => {
             ))}
             <_Input
                 type="text"
-                name="userPass"
+                name="password"
                 onChange={changeHandle}
-                value={registerModel.userPass}
+                value={registerModel.password}
                 label="Пароль"
             />
             {errors?.Password.map((error) => (
