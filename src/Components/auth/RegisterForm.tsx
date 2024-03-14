@@ -35,14 +35,12 @@ const RegisterForm = () => {
   const clickHandle = () => {
     Register(registerModel)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
       })
 
       .catch((e) => {
-        console.log(e);
-        // if ("type" in data && "title" in data) {
-
-        // }
+        console.log(e.response.data.errors);
+        setErrors(e.response.data.errors);
       });
   };
   console.log(errors);
@@ -51,46 +49,55 @@ const RegisterForm = () => {
       <SubHeading>
         Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
       </SubHeading>
-      <_Input
-        type="email"
-        name="emailAddress"
-        onChange={changeHandle}
-        value={registerModel.emailAddress}
-        label="Электронный адрес"
-      />
-      {errors?.EmailAddress.map((error) => (
-        <div>{error}</div>
-      ))}
-      <_Input
-        type="text"
-        name="fullName"
-        onChange={changeHandle}
-        value={registerModel.fullName}
-        label="Имя и фамилия"
-      />
-      {errors?.FullName.map((error) => (
-        <div>{error}</div>
-      ))}
-      <_Input
-        type="text"
-        name="userName"
-        onChange={changeHandle}
-        value={registerModel.userName}
-        label="Имя пользователя"
-      />
-      {errors?.UserName.map((error) => (
-        <div>{error}</div>
-      ))}
-      <_Input
-        type="text"
-        name="password"
-        onChange={changeHandle}
-        value={registerModel.password}
-        label="Пароль"
-      />
-      {errors?.Password.map((error) => (
-        <div>{error}</div>
-      ))}
+      <WrapperInputWithError>
+        <_Input
+          type="email"
+          name="emailAddress"
+          onChange={changeHandle}
+          value={registerModel.emailAddress}
+          label="Электронный адрес"
+          validError={Boolean(errors?.EmailAddress)}
+        />
+        {errors?.EmailAddress && (
+          <ErrorText>{errors?.EmailAddress[0]}</ErrorText>
+        )}
+      </WrapperInputWithError>
+
+      <WrapperInputWithError>
+        <_Input
+          type="text"
+          name="fullName"
+          onChange={changeHandle}
+          value={registerModel.fullName}
+          label="Имя и фамилия"
+          validError={Boolean(errors?.FullName)}
+        />
+        {errors?.FullName &&
+          errors?.FullName.map((error) => <ErrorText>{error}</ErrorText>)}
+      </WrapperInputWithError>
+      <WrapperInputWithError>
+        <_Input
+          type="text"
+          name="userName"
+          onChange={changeHandle}
+          value={registerModel.userName}
+          label="Имя пользователя"
+          validError={Boolean(errors?.UserName)}
+        />
+        {errors?.UserName &&
+          errors?.UserName.map((error) => <ErrorText>{error}</ErrorText>)}
+      </WrapperInputWithError>
+      <WrapperInputWithError>
+        <_Input
+          type="text"
+          name="password"
+          onChange={changeHandle}
+          value={registerModel.password}
+          label="Пароль"
+          validError={Boolean(errors?.Password)}
+        />
+        {errors?.Password && <ErrorText>{errors?.Password[0]}</ErrorText>}
+      </WrapperInputWithError>
       <Description>
         Регистрируясь, вы принимаете наши{" "}
         <a
@@ -118,6 +125,7 @@ const RegisterForm = () => {
       >
         Регистрация
       </_Button>
+
       <TextWithLine>
         <div />
         <span>ИЛИ</span>
@@ -167,4 +175,14 @@ const LoginText = styled.p`
     color: var(--btn-color-primary);
     cursor: pointer;
   }
+`;
+
+const WrapperInputWithError = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const ErrorText = styled.span`
+  color: var(--error-text-color);
+  font-size: var(--fontsize-span);
+  margin-left: 0.5em;
 `;
