@@ -35,9 +35,9 @@ const RegisterForm = () => {
     setButtonDisabled(!allFieldsFilled || !isPasswordValid);
   };
   const clickHandle = () => {
-    if (condition) {
+    // if (condition) {
       
-    }
+    // }
   };
   return (
     <FormCard>
