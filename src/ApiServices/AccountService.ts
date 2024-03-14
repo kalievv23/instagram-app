@@ -1,6 +1,6 @@
 import axios from "axios";
-import { LoginModel, RegisterModel } from "../Domain/Models/index.ts";
-import { MainURL, AccountEndpoints } from "../Domain/Constants/Urls/Urls.ts";
+import type { LoginModel, RegisterModel } from "../Domain/Models/index";
+import { MainURL, AccountEndpoints } from "../Domain/Constants/Urls/Urls";
 
 export const AccountService = {
   Login: async function (loginModel: LoginModel) {
