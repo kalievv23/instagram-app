@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 import type { LoginModel, RegisterModel } from "../Domain/Models/index";
 import { MainURL, AccountEndpoints } from "../Domain/Constants/Urls/Urls";
 
