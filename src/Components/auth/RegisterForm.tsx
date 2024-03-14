@@ -4,7 +4,7 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { RegisterModel } from "../../Domain/Models/RegisterModel";
+import type { RegisterModel} from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
 import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
 const RegisterForm = () => {
