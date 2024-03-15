@@ -31,7 +31,7 @@ const RegisterForm = () => {
       name === "password" ? value.trim().length >= 6 : true;
     setButtonDisabled(!allFildsFilled || !isPasswordValid);
   };
-  
+
   const clickHandle = () => {
       console.log(registerModel)
     Register(registerModel)
