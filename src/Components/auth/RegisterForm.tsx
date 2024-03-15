@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import FormCard from "../FormCard";
+import FormCard from "../Wrappers/FormCard";
 import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
@@ -16,10 +16,10 @@ const RegisterForm = () => {
     password: "",
     userName: "",
   };
-  const [errors, setErrors] = useState<Error>();
+  const [errors, setErrors] = useState<Error | null>();
   const [registerModel, setValueInput] = useState<RegisterModel>(register);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-
+  const [message,setMessage] = useState<string|null>(null)
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({ ...prevState, [name]: value }));
@@ -31,19 +31,26 @@ const RegisterForm = () => {
       name === "password" ? value.trim().length >= 6 : true;
     setButtonDisabled(!allFildsFilled || !isPasswordValid);
   };
-
+  
   const clickHandle = () => {
+      console.log(registerModel)
     Register(registerModel)
       .then((response) => {
-        console.log(response.data);
+          setMessage(null);
+          setErrors(null);
+          if(response.status === 200 && "token" in response.data) {
+              console.log(response.data.token)
+          }
       })
-
       .catch((e) => {
-        console.log(e.response.data.errors);
-        setErrors(e.response.data.errors);
+          const data = e.response.data;
+          if("title" in data && "type" in data) {
+              setErrors(data.errors);
+          }else if("message" in e){
+              setMessage(e.response)
+          }
       });
   };
-  console.log(errors);
   return (
     <FormCard>
       <SubHeading>
@@ -97,6 +104,7 @@ const RegisterForm = () => {
           validError={Boolean(errors?.Password)}
         />
         {errors?.Password && <ErrorText>{errors?.Password[0]}</ErrorText>}
+        {message?.trim() ? <ErrorText>{message}</ErrorText> : null}
       </WrapperInputWithError>
       <Description>
         Регистрируясь, вы принимаете наши{" "}

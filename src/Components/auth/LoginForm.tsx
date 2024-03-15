@@ -3,7 +3,7 @@ import _Input from "../UI/Input";
 import { ChangeEvent, useState } from "react";
 import _Button from "../UI/Button";
 import { useNavigate } from "react-router-dom";
-import FormCard from "../FormCard";
+import FormCard from "../Wrappers/FormCard";
 import {LoginModel} from "../../Domain/Models/LoginModel";
 
 
