@@ -33,11 +33,11 @@ const RegisterForm = () => {
   };
 
   const clickHandle = () => {
-      console.log(registerModel)
     Register(registerModel)
       .then((response) => {
           setMessage(null);
           setErrors(null);
+          setValueInput(register)
           if(response.status === 200 && "token" in response.data) {
               console.log(response.data.token)
           }
