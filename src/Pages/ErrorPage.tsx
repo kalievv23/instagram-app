@@ -8,7 +8,7 @@ const ErrorPage: React.FC = () => {
         <center>
             <Heading>К сожалению, эта страница недоступна.</Heading>
             <p>Возможно, вы воспользовались недействительной ссылкой или страница была удалена.{" "}
-                <LinkText onClick={() => navigate("/login")}>Назад в Instagram.</LinkText>
+                <LinkText onClick={() => navigate("/")}>Назад в Instagram.</LinkText>
             </p>
         </center>
     )
