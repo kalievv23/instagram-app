@@ -1,13 +1,13 @@
-import { ChangeEvent, useState } from "react";
-import FormCard from "../Wrappers/FormCard";
-import _Input from "../UI/Input";
-import _Button from "../UI/Button";
+import React, { ChangeEvent, useState } from "react";
+import FormCard from "../../Components/Wrappers/FormCard";
+import _Input from "../../Components/UI/Input";
+import _Button from "../../Components/UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import type { RegisterModel} from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
 import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
-const RegisterForm = () => {
+const RegisterPage: React.FC = () => {
   const { Register } = AccountService;
   const navigate = useNavigate();
   const register: RegisterModel = {
@@ -141,13 +141,13 @@ const RegisterForm = () => {
       </TextWithLine>
       <LoginText>
         Есть аккаунт?
-        <span onClick={() => navigate("/login")}> Вход</span>
+        <span onClick={() => navigate("/")}> Вход</span>
       </LoginText>
     </FormCard>
   );
 };
 
-export default RegisterForm;
+export default RegisterPage;
 
 const SubHeading = styled.h3`
   text-align: center;
