@@ -13,8 +13,8 @@ const Router: React.FC = () => {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/sign-up" element={<RegisterPage />} />
-      <Route path="/birthday" element={<BirthdayPage/>} />
-      <Route path="confirmation" element={<ConfirmationPage/>} />
+      <Route path="/sign-up/birthday" element={<BirthdayPage/>} />
+      <Route path="/sign-up/confirmation" element={<ConfirmationPage/>} />
       <Route path="/home" element={<HomePage />}  />
       <Route path="/user-name" element={<UserPage/>} />
       <Route path="*" element={<ErrorPage/>}/>

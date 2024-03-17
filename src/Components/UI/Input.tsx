@@ -7,25 +7,25 @@ interface InputProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  disabled?: boolean;
   type: string;
   label: string;
   name: string;
   validError?: boolean;
   className?: string;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const _Input: React.FC<InputProps> = ({
-  value,
+  value="",
   onChange,
-  placeholder,
-  disabled,
-  type,
-  label,
-  name,
-  validError,
-  id,
-  className
+  placeholder="",
+  type="",
+  label="",
+  name="",
+  validError=false,
+  id="",
+  className = "",
+  onBlur,
 }) => {
   return (
     <StyledTextField
@@ -34,11 +34,11 @@ const _Input: React.FC<InputProps> = ({
       type={type}
       placeholder={placeholder}
       onChange={onChange}
-      disabled={disabled}
       value={value}
       label={label}
       name={name}
       className={className}
+      onBlur={onBlur}
     />
   );
 };
