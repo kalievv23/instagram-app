@@ -4,52 +4,59 @@ import _Input from "../../Components/UI/Input";
 import _Button from "../../Components/UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { RegisterModel} from "../../Domain/Models";
+import type { RegisterModel } from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
-import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
+import { initialRegisterModel, initialValidErrors, validatorForm, validErrorsType } from "../../Components/FormHelpers";
+
 const RegisterPage: React.FC = () => {
   const { Register } = AccountService;
   const navigate = useNavigate();
-  const register: RegisterModel = {
-    emailAddress: "",
-    fullName: "",
-    password: "",
-    userName: "",
-  };
-  const [errors, setErrors] = useState<Error | null>();
-  const [registerModel, setValueInput] = useState<RegisterModel>(register);
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-  const [message,setMessage] = useState<string|null>(null)
-  const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
+  const [registerModel, setValueInput] =
+    useState<RegisterModel>(initialRegisterModel);
+  const [validErrors, setValidErrors] =
+    useState<validErrorsType>(initialValidErrors);
+
+  const changeHandle = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({ ...prevState, [name]: value }));
-    const allFildsFilled = Object.values({
-      ...registerModel,
-      [name]: value,
-    }).every((val) => val.trim() !== "");
-    const isPasswordValid =
-      name === "password" ? value.trim().length >= 6 : true;
-    setButtonDisabled(!allFildsFilled || !isPasswordValid);
+    if (value !== "") {
+      setValidErrors((prevValidErrors: validErrorsType) => ({
+        ...prevValidErrors,
+        [name]: "",
+      }));
+    }
   };
 
-  const clickHandle = () => {
-      console.log(registerModel)
-    Register(registerModel)
-      .then((response) => {
-          setMessage(null);
-          setErrors(null);
-          if(response.status === 200 && "token" in response.data) {
-              console.log(response.data.token)
-          }
-      })
-      .catch((e) => {
-          const data = e.response.data;
-          if("title" in data && "type" in data) {
-              setErrors(data.errors);
-          }else if("message" in e){
-              setMessage(e.response)
-          }
+  const blurHandle = (event: React.FocusEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
+    validatorForm(name, value, setValidErrors);
+  };
+
+  const clickHandle = async () => {
+    // проверка ошибки пустых полей
+    const hasEmptyValues = Object.values(registerModel).some(
+      (value) => value === ""
+    );
+    if (hasEmptyValues) {
+      Object.entries(registerModel).forEach(([key, value]) => {
+        if (value === "") {
+          validatorForm(key, "", setValidErrors);
+        }
       });
+      return; // остановит отправки данных на сервер если будут ошибки
+    }
+    // проверка ошибки валидации
+    const hasErrors = Object.values(validErrors).some((error) => error !== "");
+    if (hasErrors) return; // остановит отправки данных на сервер если будут ошибки
+
+    const response = await Register(registerModel);
+    try {
+      if (response.status === 200 && "token" in response.data) {
+        console.log(response.data.token);
+      }
+    } catch (e: any) {
+      console.log(e.response?.data ?? e.message);
+    }
   };
   return (
     <FormCard>
@@ -63,10 +70,11 @@ const RegisterPage: React.FC = () => {
           onChange={changeHandle}
           value={registerModel.emailAddress}
           label="Электронный адрес"
-          validError={Boolean(errors?.EmailAddress)}
+          validError={Boolean(validErrors.emailAddress)}
+          onBlur={blurHandle}
         />
-        {errors?.EmailAddress && (
-          <ErrorText>{errors?.EmailAddress[0]}</ErrorText>
+        {validErrors.emailAddress && (
+          <ErrorText>{validErrors.emailAddress}</ErrorText>
         )}
       </WrapperInputWithError>
 
@@ -77,10 +85,10 @@ const RegisterPage: React.FC = () => {
           onChange={changeHandle}
           value={registerModel.fullName}
           label="Имя и фамилия"
-          validError={Boolean(errors?.FullName)}
+          validError={Boolean(validErrors.fullName)}
+          onBlur={blurHandle}
         />
-        {errors?.FullName &&
-          errors?.FullName.map((error) => <ErrorText>{error}</ErrorText>)}
+        {validErrors.fullName && <ErrorText>{validErrors.fullName}</ErrorText>}
       </WrapperInputWithError>
       <WrapperInputWithError>
         <_Input
@@ -89,10 +97,10 @@ const RegisterPage: React.FC = () => {
           onChange={changeHandle}
           value={registerModel.userName}
           label="Имя пользователя"
-          validError={Boolean(errors?.UserName)}
+          validError={Boolean(validErrors.userName)}
+          onBlur={blurHandle}
         />
-        {errors?.UserName &&
-          errors?.UserName.map((error) => <ErrorText>{error}</ErrorText>)}
+        {validErrors.userName && <ErrorText>{validErrors.userName}</ErrorText>}
       </WrapperInputWithError>
       <WrapperInputWithError>
         <_Input
@@ -101,10 +109,10 @@ const RegisterPage: React.FC = () => {
           onChange={changeHandle}
           value={registerModel.password}
           label="Пароль"
-          validError={Boolean(errors?.Password)}
+          validError={Boolean(validErrors.password)}
+          onBlur={blurHandle}
         />
-        {errors?.Password && <ErrorText>{errors?.Password[0]}</ErrorText>}
-        {message?.trim() ? <ErrorText>{message}</ErrorText> : null}
+        {validErrors.password && <ErrorText>{validErrors.password}</ErrorText>}
       </WrapperInputWithError>
       <Description>
         Регистрируясь, вы принимаете наши{" "}
@@ -126,11 +134,7 @@ const RegisterPage: React.FC = () => {
           Политику в отношении файлов cookie.
         </a>
       </Description>
-      <_Button
-        disabled={buttonDisabled}
-        onClick={clickHandle}
-        variant="contained"
-      >
+      <_Button onClick={clickHandle} variant="contained">
         Регистрация
       </_Button>
 
