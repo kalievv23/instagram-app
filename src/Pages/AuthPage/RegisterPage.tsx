@@ -15,6 +15,7 @@ const RegisterPage: React.FC = () => {
     useState<RegisterModel>(initialRegisterModel);
   const [validErrors, setValidErrors] =
     useState<validErrorsType>(initialValidErrors);
+  const [serverError, setServerError] = useState<string>("")
 
   const changeHandle = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -49,13 +50,15 @@ const RegisterPage: React.FC = () => {
     const hasErrors = Object.values(validErrors).some((error) => error !== "");
     if (hasErrors) return; // остановит отправки данных на сервер если будут ошибки
 
-    const response = await Register(registerModel);
     try {
+      const response = await Register(registerModel);
       if (response.status === 200 && "token" in response.data) {
-        console.log(response.data.token);
+        console.log("Success! Your token:", response.data.token);
+        setServerError("")
       }
     } catch (e: any) {
-      console.log(e.response?.data ?? e.message);
+    console.log("Ошибка при регистрации:", e.response.data.message);
+    setServerError("Ошибка при регистрации: " + e.response.data.message);
     }
   };
   return (
@@ -137,7 +140,7 @@ const RegisterPage: React.FC = () => {
       <_Button onClick={clickHandle} variant="contained">
         Регистрация
       </_Button>
-
+      {serverError && <ErrorText>{serverError}</ErrorText>}
       <TextWithLine>
         <div />
         <span>ИЛИ</span>

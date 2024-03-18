@@ -21,10 +21,15 @@ export const initialRegisterModel: RegisterModel = {
   userName: "",
 };
 
-const isValidEmail = (email: string) => {
+const isValidEmail = (email: string): string => {
   const regex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   return regex.test(email.trim().toLowerCase()) ? "" : "Некорректный email";
 };
+
+const isValidPassword = (password: string): string => {
+  const regex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/;
+  return regex.test(password.trim()) ? "" : "Пароль должен содержать хотя бы одну заглавную и строчную букву, цифру и специальный символ"
+}
 
 const emptyErrorText: string = "Объязательное поле !";
 
@@ -43,12 +48,7 @@ export const validatorForm = (
     case "password":
       setValidErrors((prevValidErrors) => ({
         ...prevValidErrors,
-        [name]:
-          value.length >= 10
-            ? ""
-            : value === ""
-            ? emptyErrorText
-            : "Не менее 10 символов",
+        [name]: value === "" ? emptyErrorText : value.trim().length >= 10 ? isValidPassword(value) : "Не менее 10 символов"
       }));
       break;
     case "userName":
