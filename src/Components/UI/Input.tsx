@@ -25,20 +25,20 @@ const _Input: React.FC<InputProps> = ({
   name,
   validError,
   id,
-  className
+  className,
 }) => {
   return (
     <StyledTextField
-      id={id}
-      error={validError}
-      type={type}
-      placeholder={placeholder}
-      onChange={onChange}
-      disabled={disabled}
       value={value}
+      id={id}
+      // error={validError}
+      type={type}
+      // placeholder={placeholder}
+      onChange={onChange}
+      // disabled={disabled}
       label={label}
       name={name}
-      className={className}
+      // className={className}
     />
   );
 };

@@ -4,7 +4,7 @@ import _Input from "../UI/Input";
 import _Button from "../UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import type { RegisterModel} from "../../Domain/Models";
+import type { RegisterModel } from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
 import type { Error } from "../../Domain/Responses/ErrorValidationRegister";
 const RegisterForm = () => {
@@ -19,7 +19,7 @@ const RegisterForm = () => {
   const [errors, setErrors] = useState<Error | null>();
   const [registerModel, setValueInput] = useState<RegisterModel>(register);
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-  const [message,setMessage] = useState<string|null>(null)
+  const [message, setMessage] = useState<string | null>(null);
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({ ...prevState, [name]: value }));
@@ -35,22 +35,59 @@ const RegisterForm = () => {
   const clickHandle = () => {
     Register(registerModel)
       .then((response) => {
-          setMessage(null);
-          setErrors(null);
-          setValueInput(register)
-          if(response.status === 200 && "token" in response.data) {
-              console.log(response.data.token)
-          }
+        setMessage(null);
+        setErrors(null);
+        setValueInput(register);
+        if (response.status === 200 && "token" in response.data) {
+          console.log(response.data.token);
+        }
       })
       .catch((e) => {
-          const data = e.response.data;
-          if("title" in data && "type" in data) {
-              setErrors(data.errors);
-          }else if("message" in e){
-              setMessage(e.response)
-          }
+        const data = e.response.data;
+        if ("title" in data && "type" in data) {
+          setErrors(data.errors);
+        } else if ("message" in e) {
+          setMessage(e.response);
+        }
       });
   };
+  const objs: inputPropType[] = [
+    {
+      type: "email",
+      name: "emailAddress",
+      onChange: changeHandle,
+      value: register.emailAddress,
+      label: "Электронный адрес",
+      validError: Boolean(errors?.FullName),
+    },
+    {
+      type: "text",
+      name: "fullName",
+      onChange: changeHandle,
+      value: registerModel.fullName,
+      label: "Имя и фамилия",
+      validError: Boolean(errors?.FullName),
+    },
+    {
+      type: "text",
+      name: "userName",
+      onChange: changeHandle,
+      value: registerModel.userName,
+      label: "Имя пользователя",
+      validError: Boolean(errors?.UserName),
+    },
+    {
+      type: "text",
+      name: "password",
+      onChange: changeHandle,
+      value: registerModel.password,
+      label: "Пароль",
+      validError: Boolean(errors?.Password),
+    },
+  ];
+
+  const inputs = RegisterInputs(objs);
+
   return (
     <FormCard>
       <SubHeading>
@@ -104,8 +141,8 @@ const RegisterForm = () => {
           validError={Boolean(errors?.Password)}
         />
         {errors?.Password && <ErrorText>{errors?.Password[0]}</ErrorText>}
-        {message?.trim() ? <ErrorText>{message}</ErrorText> : null}
       </WrapperInputWithError>
+      {message?.trim() ? <ErrorText>{message}</ErrorText> : null}
       <Description>
         Регистрируясь, вы принимаете наши{" "}
         <a
@@ -145,6 +182,38 @@ const RegisterForm = () => {
       </LoginText>
     </FormCard>
   );
+};
+
+const creatorInput = (object: inputPropType | undefined) => {
+  return () => {
+    if (object) {
+      return <_Input {...object} />;
+    }
+  };
+};
+
+type inputPropType = {
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  type: string;
+  label: string;
+  name: string;
+  validError: boolean;
+  id?: string;
+  className?: string;
+};
+
+const RegisterInputs = (inputProps: inputPropType[]) => {
+  const inputs: JSX.Element[] = [];
+  inputProps.forEach((inputP) => {
+    const Input = creatorInput(inputP);
+    if (Input != undefined) {
+      inputs.push(<Input />);
+    }
+  });
+  return inputs;
 };
 
 export default RegisterForm;
