@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 import type { RegisterModel } from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
 import { initialRegisterModel, initialValidErrors, validatorForm, validErrorsType } from "../../Components/FormHelpers";
+import {useDispatch, useSelector} from "react-redux";
+import {registerSuccess} from "../../Store/Actions/AuthActions";
+import {AuthState} from "../../Store/Types/State";
 
 const RegisterPage: React.FC = () => {
   const { Register } = AccountService;
@@ -16,6 +19,10 @@ const RegisterPage: React.FC = () => {
   const [validErrors, setValidErrors] =
     useState<validErrorsType>(initialValidErrors);
   const [serverError, setServerError] = useState<string>("")
+
+  const dispatch = useDispatch()
+  const a = useSelector((state: AuthState) => state)
+  console.log(a)
 
   const changeHandle = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -54,6 +61,7 @@ const RegisterPage: React.FC = () => {
       const response = await Register(registerModel);
       if (response.status === 200 && "token" in response.data) {
         console.log("Success! Your token:", response.data.token);
+        dispatch(registerSuccess(response.data.token))
         setServerError("")
       }
     } catch (e: any) {
@@ -107,7 +115,7 @@ const RegisterPage: React.FC = () => {
       </WrapperInputWithError>
       <WrapperInputWithError>
         <_Input
-          type="text"
+          type="password"
           name="password"
           onChange={changeHandle}
           value={registerModel.password}
