@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import _Input from "../UI/Input";
-import { ChangeEvent, useState } from "react";
-import _Button from "../UI/Button";
+import _Input from "../../Components/UI/Input";
+import React, { ChangeEvent, useState } from "react";
+import _Button from "../../Components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import FormCard from "../Wrappers/FormCard";
+import FormCard from "../../Components/Wrappers/FormCard";
 import {LoginModel} from "../../Domain/Models/LoginModel";
 
 
-const LoginForm: React.FC = () => {
+const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [valueInput, setValueInput] = useState<LoginModel>({
     userName: "",
@@ -47,8 +47,10 @@ const LoginForm: React.FC = () => {
         value={valueInput.userName}
         name="userName"
         className="firstInputLogin"
+        id={"userName"}
       />
       <_Input
+          id={"userPassword"}
         type="password"
         label="Пароль"
         onChange={changeHandle}
@@ -75,7 +77,7 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;
 
 const TextWithLine = styled.div`
   display: flex;
