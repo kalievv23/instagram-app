@@ -3,12 +3,12 @@ import _Input from "../../Components/UI/Input";
 import React, { ChangeEvent, useState } from "react";
 import _Button from "../../Components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import FormCard from "../../Components/Wrappers/FormCard";
+import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
 import { LoginModel } from "../../Domain/Models/LoginModel";
 import { AccountService } from "../../ApiServices/AccountService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../Store/Actions/AuthActions";
-import {networkErrorText} from "../../Components/FormHelpers";
+import { networkErrorText } from "../../Components/FormHelpers";
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
     }
   };
   const clickHandle = async () => {
-    setServerError("")
+    setServerError("");
     try {
       const response = await Login(loginModel);
       if (response.status === 200) {
@@ -56,13 +56,14 @@ const LoginPage: React.FC = () => {
       if (error.response) {
         setServerError(error.response.data.message);
       } else {
-        setServerError(networkErrorText)
+        setServerError(networkErrorText);
       }
     }
   };
 
   return (
-    <FormCard>
+    <FormCard heading>
+      <br />
       <_Input
         type="text"
         label="Имя пользователья или эл. адрес"
@@ -86,11 +87,7 @@ const LoginPage: React.FC = () => {
         Войти
       </_Button>
       {serverError && <ServerErrorText>{serverError}</ServerErrorText>}
-      <TextWithLine>
-        <div />
-        <span>ИЛИ</span>
-        <div />
-      </TextWithLine>
+      <TextWithLine />
       <SignupText>
         У вас ещё нет аккаунта?
         <span onClick={() => navigate("/sign-up")}> Зарегистрироваться</span>
@@ -101,18 +98,6 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-const TextWithLine = styled.div`
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
-  margin-top: 0.5em;
-  & div {
-    border: 1px solid var(--form-color-opacity);
-    width: 35%;
-    height: 0;
-    align-self: center;
-  }
-`;
 const SignupText = styled.p`
   font-size: var(--fontsize-p);
   margin-top: 1em;
@@ -127,4 +112,4 @@ const ServerErrorText = styled.p`
   color: var(--error-text-color);
   font-size: var(--fontsize-p);
   text-align: center;
-`
+`;
