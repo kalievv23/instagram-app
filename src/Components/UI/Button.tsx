@@ -7,15 +7,19 @@ interface ButtonProps {
   children: React.ReactNode;
   variant: "contained" | "text" | "outlined";
   fullWidth?: boolean;
+  background?: string;
+  color?: string;
 }
 
 const _Button: React.FC<ButtonProps> = ({
   onClick,
-  className= "",
-  disabled= false,
+  className = "",
+  disabled = false,
   children,
   variant,
-  fullWidth=false,
+  fullWidth = false,
+  background = "",
+  color = "",
 }) => {
   return (
     <Button
@@ -24,7 +28,7 @@ const _Button: React.FC<ButtonProps> = ({
       className={className}
       disabled={disabled}
       variant={variant}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", backgroundColor: background, color: color }}
     >
       {children}
     </Button>
