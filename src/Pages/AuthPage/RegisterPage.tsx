@@ -41,7 +41,6 @@ const RegisterPage: React.FC = () => {
   };
 
   const clickHandle = async () => {
-    // проверка ошибки пустых полей
     const hasEmptyValues = Object.values(registerModel).some(
       (value) => value === ""
     );
@@ -51,18 +50,23 @@ const RegisterPage: React.FC = () => {
           validatorForm(key, "", setValidErrors);
         }
       });
-      return; // остановит отправки данных на сервер если будут ошибки
+      return;
     }
-    // проверка ошибки валидации
     const hasErrors = Object.values(validErrors).some((error) => error !== "");
     if (hasErrors) return; // остановит отправки данных на сервер если будут ошибки
 
+    const postFormData: RegisterModel = {
+      ...registerModel,
+      userName: registerModel.userName.toLowerCase()
+    }
+
     try {
-      const response = await Register(registerModel);
+      const response = await Register(postFormData);
       if (response.status === 200 && "token" in response.data) {
         console.log("Success! Your token:", response.data.token);
-        dispatch(registerSuccess(response.data.token))
+        dispatch(registerSuccess(response.data))
         setServerError("")
+        navigate("birthday")
       }
     } catch (e: any) {
     console.log("Ошибка при регистрации:", e.response.data.message);
