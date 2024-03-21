@@ -6,6 +6,7 @@ interface ButtonProps {
   disabled?: boolean;
   children: React.ReactNode;
   variant: "contained" | "text" | "outlined";
+  fullWidth?: boolean;
 }
 
 const _Button: React.FC<ButtonProps> = ({
@@ -14,9 +15,11 @@ const _Button: React.FC<ButtonProps> = ({
   disabled= false,
   children,
   variant,
+  fullWidth=false,
 }) => {
   return (
     <Button
+      fullWidth={fullWidth}
       onClick={onClick}
       className={className}
       disabled={disabled}

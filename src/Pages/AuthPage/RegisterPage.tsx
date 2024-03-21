@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import FormCard from "../../Components/Wrappers/FormCard";
+import FormCard, {TextWithLine} from "../../Components/Wrappers/FormCard";
 import _Input from "../../Components/UI/Input";
 import _Button from "../../Components/UI/Button";
 import styled from "styled-components";
@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
     }
   };
   return (
-    <FormCard>
+    <FormCard heading>
       <SubHeading>
         Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.
       </SubHeading>
@@ -153,11 +153,7 @@ const RegisterPage: React.FC = () => {
         Регистрация
       </_Button>
       {serverError && <ErrorText>{serverError}</ErrorText>}
-      <TextWithLine>
-        <div />
-        <span>ИЛИ</span>
-        <div />
-      </TextWithLine>
+      <TextWithLine/>
       <LoginText>
         Есть аккаунт?
         <span onClick={() => navigate("/")}> Вход</span>
@@ -178,19 +174,6 @@ const Description = styled.p`
   font-size: var(--fontsize-span);
   text-align: center;
   color: rgb(90 90 90);
-`;
-
-const TextWithLine = styled.div`
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
-  margin-top: 0.5em;
-  & div {
-    border: 1px solid var(--form-color-opacity);
-    width: 35%;
-    height: 0;
-    align-self: center;
-  }
 `;
 
 const LoginText = styled.p`
