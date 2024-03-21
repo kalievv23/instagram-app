@@ -1,0 +1,114 @@
+.wrapper {
+  /* border: 3px solid blue; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 3em;
+  margin: 3em 0;
+}
+.profile_header {
+  width: 70%;
+  padding: 0 2em;
+  display: flex;
+  align-items: center;
+  column-gap: 5em;
+  justify-content: center;
+}
+.image_default_profile {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.user_info_wrapper {
+  display: grid;
+  row-gap: 2em;
+  align-self: flex-start;
+}
+.username_with_buttons {
+  display: flex;
+  gap: 0.5em 1.5em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.username {
+  font-size: var(--fontsize-h3);
+  font-weight: 500;
+  cursor: pointer;
+}
+.profile_buttons {
+  display: flex;
+  column-gap: 0.5em;
+}
+.settingIcon {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.subscrib_info {
+  display: flex;
+  column-gap: 2.5em;
+  font-size: var(--fontsize-p);
+  font-weight: 500;
+  text-align: center;
+}
+.user_fullname {
+  font-size: var(--fontsize-p);
+  font-weight: 600;
+}
+
+.actuall_histories {
+  width: 60%;
+  display: flex;
+  gap: 3em;
+}
+.actuall_history {
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.actuall_history div {
+  border: 2px solid #d6d6d6;
+  cursor: pointer;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 0.5em;
+}
+
+.publics_navbar {
+  border-top: 2px solid #d5d5d5;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  gap: 5em;
+}
+.publics_navbar > div {
+  cursor: pointer;
+  border-top: 3px solid;
+  padding: 1em 3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #000000b7;
+  font-size: var(--fontsize-p);
+}
+
+.publics_wrapper {
+  width: 30%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1em;
+}
