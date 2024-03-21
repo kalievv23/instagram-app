@@ -8,6 +8,7 @@ import { LoginModel } from "../../Domain/Models/LoginModel";
 import { AccountService } from "../../ApiServices/AccountService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../Store/Actions/AuthActions";
+import {networkErrorText} from "../../Components/FormHelpers";
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,14 +45,19 @@ const LoginPage: React.FC = () => {
     }
   };
   const clickHandle = async () => {
+    setServerError("")
     try {
       const response = await Login(loginModel);
       if (response.status === 200) {
         dispatch(loginSuccess(response.data));
         navigate(`${response.data.user.userName}`);
       }
-    } catch (e: any) {
-      setServerError(e.response.data.message);
+    } catch (error: any) {
+      if (error.response) {
+        setServerError(error.response.data.message);
+      } else {
+        setServerError(networkErrorText)
+      }
     }
   };
 
@@ -79,7 +85,7 @@ const LoginPage: React.FC = () => {
       >
         Войти
       </_Button>
-      {serverError && <ErrorText>{serverError}</ErrorText>}
+      {serverError && <ServerErrorText>{serverError}</ServerErrorText>}
       <TextWithLine>
         <div />
         <span>ИЛИ</span>
@@ -117,8 +123,8 @@ const SignupText = styled.p`
     cursor: pointer;
   }
 `;
-const ErrorText = styled.span`
+const ServerErrorText = styled.p`
   color: var(--error-text-color);
-  font-size: var(--fontsize-span);
-  margin-left: 0.5em;
-`;
+  font-size: var(--fontsize-p);
+  text-align: center;
+`
