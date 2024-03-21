@@ -33,6 +33,8 @@ const isValidPassword = (password: string): string => {
 
 const emptyErrorText: string = "Объязательное поле !";
 
+export const networkErrorText: string = "Что-то пошло не так! Пожалуйста, убедитесь, что вы подключены к сети, и повторите попытку."
+
 export const validatorForm = (
   name: string,
   value: string,
