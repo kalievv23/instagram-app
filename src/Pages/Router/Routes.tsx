@@ -7,6 +7,7 @@ import ErrorPage from "../ErrorPage";
 import BirthdayPage from "../AuthPage/BirthdayPage";
 import ConfirmationPage from "../AuthPage/ConfirmationPage";
 import UserPage from "../UserPage";
+import { MainPage } from "../Main/MainPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Store/Types/State";
 import MyPublications from "../../Components/Pulications/MyPublications";
@@ -22,6 +23,12 @@ const Router: React.FC = () => {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/sign-up" element={<RegisterPage />} />
+      <Route path="/sign-up/birthday" element={<BirthdayPage />} />
+      <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/user-name" element={<UserPage />} />
+      <Route path="/nav" element={<MainPage />} />
+      <Route path="*" element={<ErrorPage />} />
       <Route path="/sign-up/birthday" element={<BirthdayPage />} />
       <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
       <Route path="/home" element={<HomePage />} />
