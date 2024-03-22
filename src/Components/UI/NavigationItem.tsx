@@ -24,6 +24,7 @@ const NavImg = styled.div`
 `;
 const NavTitle = styled.div<{ $isActive?: boolean }>`
   font-size: 14px;
+  line-height:20px;
   font-weight: ${(props) => (props.$isActive ? 800 : 400)};
   color: ${(props) => (!props.theme.isDarkMode ? "#000" : "#fff")};
   text-transform: capitalize;
