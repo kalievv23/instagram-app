@@ -10,8 +10,8 @@ interface ButtonProps {
 
 const _Button: React.FC<ButtonProps> = ({
   onClick,
-  className= "",
-  disabled= false,
+  className = "",
+  disabled = false,
   children,
   variant,
 }) => {

@@ -16,14 +16,14 @@ interface InputProps {
 }
 
 const _Input: React.FC<InputProps> = ({
-  value="",
+  value = "",
   onChange,
-  placeholder="",
-  type="",
-  label="",
-  name="",
-  validError=false,
-  id="",
+  placeholder = "",
+  type = "",
+  label = "",
+  name = "",
+  validError = false,
+  id = "",
   className = "",
   onBlur,
 }) => {
