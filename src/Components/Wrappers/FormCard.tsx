@@ -3,13 +3,14 @@ import styled from "styled-components";
 
 interface CardProps {
   children: React.ReactNode;
+  heading?: boolean;
 }
 
-const FormCard: React.FC<CardProps> = ({ children }) => {
+const FormCard: React.FC<CardProps> = ({ children, heading }) => {
   return (
     <WrapperContainer>
       <Form>
-        <Heading>Instagram</Heading>
+        {heading && <Heading>Instagram</Heading>}
         {children}
       </Form>
     </WrapperContainer>
@@ -32,4 +33,31 @@ const Form = styled.form`
 `;
 const Heading = styled.h1`
   text-align: center;
+`;
+
+
+
+
+
+export const TextWithLine = () => {
+    return (
+        <TextWithLineStyled>
+            <div />
+            <span>ИЛИ</span>
+            <div />
+        </TextWithLineStyled>
+    )
+}
+
+const TextWithLineStyled = styled.div`
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+  margin-top: 0.5em;
+  & div {
+    border: 1px solid var(--form-color-opacity);
+    width: 35%;
+    height: 0;
+    align-self: center;
+  }
 `;

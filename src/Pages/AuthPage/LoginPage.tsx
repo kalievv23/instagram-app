@@ -3,17 +3,25 @@ import _Input from "../../Components/UI/Input";
 import React, { ChangeEvent, useState } from "react";
 import _Button from "../../Components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import FormCard from "../../Components/Wrappers/FormCard";
-import {LoginModel} from "../../Domain/Models/LoginModel";
-
+import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
+import { LoginModel } from "../../Domain/Models/LoginModel";
+import { AccountService } from "../../ApiServices/AccountService";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../Store/Actions/AuthActions";
+import { networkErrorText } from "../../Components/FormHelpers";
 
 const LoginPage: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [valueInput, setValueInput] = useState<LoginModel>({
-    userName: "",
-    userPass: "",
+  const [loginModel, setValueInput] = useState<LoginModel>({
+    emailAddressOrUserName: "",
+    password: "",
   });
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
+  const [serverError, setServerError] = useState<string>("");
+
+  const { Login } = AccountService;
+
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValueInput((prevState) => ({
@@ -21,31 +29,47 @@ const LoginPage: React.FC = () => {
       [name]: value,
     }));
     if (
-      name === "userName" &&
+      name === "emailAddressOrUserName" &&
       value.trim() !== "" &&
-      valueInput.userPass.trim().length >= 6
+      loginModel.password.trim().length >= 6
     ) {
       setButtonDisabled(false);
     } else if (
-      name === "userPass" &&
-      value.trim().length >= 6 &&
-      valueInput.userName.trim() !== ""
+      name === "password" &&
+      value.trim().length >= 10 &&
+      loginModel.emailAddressOrUserName.trim() !== ""
     ) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
   };
-  const clickHandle = () => {};
+  const clickHandle = async () => {
+    setServerError("");
+    try {
+      const response = await Login(loginModel);
+      if (response.status === 200) {
+        dispatch(loginSuccess(response.data));
+        navigate(`${response.data.user.userName}`);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        setServerError(error.response.data.message);
+      } else {
+        setServerError(networkErrorText);
+      }
+    }
+  };
 
   return (
-    <FormCard>
+    <FormCard heading>
+      <br />
       <_Input
         type="text"
         label="Имя пользователья или эл. адрес"
         onChange={changeHandle}
-        value={valueInput.userName}
-        name="userName"
+        value={loginModel.emailAddressOrUserName}
+        name="emailAddressOrUserName"
         className="firstInputLogin"
         id={"userName"}
       />
@@ -54,8 +78,8 @@ const LoginPage: React.FC = () => {
         type="password"
         label="Пароль"
         onChange={changeHandle}
-        value={valueInput.userPass}
-        name="userPass"
+        value={loginModel.password}
+        name="password"
       />
       <_Button
         disabled={buttonDisabled}
@@ -64,11 +88,8 @@ const LoginPage: React.FC = () => {
       >
         Войти
       </_Button>
-      <TextWithLine>
-        <div />
-        <span>ИЛИ</span>
-        <div />
-      </TextWithLine>
+      {serverError && <ServerErrorText>{serverError}</ServerErrorText>}
+      <TextWithLine />
       <SignupText>
         У вас ещё нет аккаунта?
         <span onClick={() => navigate("/sign-up")}> Зарегистрироваться</span>
@@ -79,18 +100,6 @@ const LoginPage: React.FC = () => {
 
 export default LoginPage;
 
-const TextWithLine = styled.div`
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
-  margin-top: 0.5em;
-  & div {
-    border: 1px solid var(--form-color-opacity);
-    width: 35%;
-    height: 0;
-    align-self: center;
-  }
-`;
 const SignupText = styled.p`
   font-size: var(--fontsize-p);
   margin-top: 1em;
@@ -100,4 +109,9 @@ const SignupText = styled.p`
     color: var(--btn-color-primary);
     cursor: pointer;
   }
+`;
+const ServerErrorText = styled.p`
+  color: var(--error-text-color);
+  font-size: var(--fontsize-p);
+  text-align: center;
 `;

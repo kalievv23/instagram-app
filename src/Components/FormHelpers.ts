@@ -28,10 +28,15 @@ const isValidEmail = (email: string): string => {
 
 const isValidPassword = (password: string): string => {
   const regex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$/;
-  return regex.test(password.trim()) ? "" : "Пароль должен содержать хотя бы одну заглавную и строчную букву, цифру и специальный символ"
-}
+  return regex.test(password.trim())
+    ? ""
+    : "Пароль должен содержать хотя бы одну заглавную и строчную букву, цифру и специальный символ";
+};
 
 const emptyErrorText: string = "Объязательное поле !";
+
+export const networkErrorText: string =
+  "Что-то пошло не так! Пожалуйста, убедитесь, что вы подключены к сети, и повторите попытку.";
 
 export const validatorForm = (
   name: string,
@@ -48,7 +53,12 @@ export const validatorForm = (
     case "password":
       setValidErrors((prevValidErrors) => ({
         ...prevValidErrors,
-        [name]: value === "" ? emptyErrorText : value.trim().length >= 10 ? isValidPassword(value) : "Не менее 10 символов"
+        [name]:
+          value === ""
+            ? emptyErrorText
+            : value.trim().length >= 10
+            ? isValidPassword(value)
+            : "Не менее 10 символов",
       }));
       break;
     case "userName":
@@ -66,4 +76,45 @@ export const validatorForm = (
     default:
       break;
   }
+};
+
+export interface BirthdayType {
+  day: string;
+  month: string;
+  year: string;
+}
+
+export const currentDate: Date = new Date();
+export const initialBirthdayValue: BirthdayType = {
+  day: currentDate.getDate().toString(),
+  month: (currentDate.getMonth() + 1).toString(),
+  year: currentDate.getFullYear().toString(),
+};
+
+export const months: string[] = [
+  "Январь",
+  "Февраль",
+  "Март",
+  "Апрель",
+  "Май",
+  "Июнь",
+  "Июль",
+  "Август",
+  "Сентябрь",
+  "Октябрь",
+  "Ноябрь",
+  "Декабрь",
+];
+
+export const generateDaysInMonth = (
+  month: string,
+  year: string,
+  setState: React.Dispatch<React.SetStateAction<number>>
+): void => {
+  const daysInMonth: number = new Date(
+    Number(year),
+    Number(month),
+    0
+  ).getDate();
+  setState(daysInMonth);
 };
