@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { NavigationItem } from "../UI/NavigationItem";
-import styled, { ThemeProvider } from "styled-components";
+import  { ThemeProvider } from "styled-components";
 import { NavSvgs } from "../../Helpers/GetSvgHelper";
 import { GetSvg } from "../../Helpers/GetSvgHelper";
-import { Nav, NavFooter, NavLogo, NavProfileImg } from "../Styles/Navigation";
+import { Nav, NavFooter, NavLogo } from "../Styles/Navigation";
 export const navigationAssets: {
   svg: NavSvgs;
   text: string;

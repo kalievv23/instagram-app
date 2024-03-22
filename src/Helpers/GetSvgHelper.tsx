@@ -1,4 +1,4 @@
-import profile from "./../Assets/NavigationIcons/profile.jpeg";
+import profile from "../Assets/Icons/profile.jpeg";
 import { NavProfileImg } from "../Components/Styles/Navigation";
 export enum NavSvgs {
   MAIN,

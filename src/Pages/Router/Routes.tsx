@@ -35,7 +35,10 @@ const Router: React.FC = () => {
       <Route path={`/${userName}`} element={<UserPage />}>
         <Route path="" element={<MyPublications />} />
         <Route path={`/${userName}/saved`} element={<SavedPublications />} />
-        <Route path={`/${userName}/tagged`} element={<TaggedMePublications />} />
+        <Route
+          path={`/${userName}/tagged`}
+          element={<TaggedMePublications />}
+        />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
