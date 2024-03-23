@@ -71,8 +71,10 @@ const LoginPage: React.FC = () => {
         value={loginModel.emailAddressOrUserName}
         name="emailAddressOrUserName"
         className="firstInputLogin"
+        id={"userName"}
       />
       <_Input
+          id={"userPassword"}
         type="password"
         label="Пароль"
         onChange={changeHandle}
