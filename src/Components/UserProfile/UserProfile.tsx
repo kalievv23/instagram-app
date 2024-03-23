@@ -35,14 +35,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ userName }) => {
                 color="black"
                 onClick={() => navigate("edit")}
                 variant="contained"
-                children=<b>Редактировать</b>
+                children={<b>Редактировать</b>}
               />
               <_Button
                 background="#efefef"
                 color="black"
                 onClick={() => navigate("/archive/stories")}
                 variant="contained"
-                children=<b>Посмотреть архив</b>
+                children={<b>Посмотреть архив</b>}
               />
             </div>
             <div className={styles.settingIcon}>{settingIcon}</div>

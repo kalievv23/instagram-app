@@ -26,19 +26,18 @@ const Router: React.FC = () => {
       <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/user-name" element={<UserPage />} />
-      <Route path="/" element={<MainPage />} />
+      <Route path="/" element={<MainPage />} >
+          <Route path={`${userName}`} element={<UserPage />}>
+              <Route path="" element={<MyPublications />} />
+              <Route path={`saved`} element={<SavedPublications />} />
+              <Route path={`tagged`} element={<TaggedMePublications />}/>
+          </Route>
+      </Route>
       <Route path="*" element={<ErrorPage />} />
       <Route path="/sign-up/birthday" element={<BirthdayPage />} />
       <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
       <Route path="/home" element={<HomePage />} />
-      <Route path={`/${userName}`} element={<UserPage />}>
-        <Route path="" element={<MyPublications />} />
-        <Route path={`/${userName}/saved`} element={<SavedPublications />} />
-        <Route
-          path={`/${userName}/tagged`}
-          element={<TaggedMePublications />}
-        />
-      </Route>
+
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

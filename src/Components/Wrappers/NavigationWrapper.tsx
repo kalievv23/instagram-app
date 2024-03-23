@@ -1,53 +1,44 @@
 import React, { useState } from "react";
 import { NavigationItem } from "../UI/NavigationItem";
-import  { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { NavSvgs } from "../../Helpers/GetSvgHelper";
 import { GetSvg } from "../../Helpers/GetSvgHelper";
 import { Nav, NavFooter, NavLogo } from "../Styles/Navigation";
 export const navigationAssets: {
   svg: NavSvgs;
   text: string;
-  showComponent: React.ReactNode;
 }[] = [
   {
     svg: NavSvgs.MAIN,
     text: "главная",
-    showComponent: <div>главная</div>,
   },
   {
     svg: NavSvgs.SERCH,
     text: "поисковый запрос",
-    showComponent: <div>поисковый запрос</div>,
   },
   {
     svg: NavSvgs.INTERESTING,
     text: "интересное",
-    showComponent: <div>интересное</div>,
   },
   {
     svg: NavSvgs.REELS,
     text: "Reels",
-    showComponent: <div>REELS</div>,
   },
   {
     svg: NavSvgs.MESSAGE,
     text: "сообщения",
-    showComponent: <div>сообщения</div>,
   },
   {
     svg: NavSvgs.NOTIFICATION,
     text: "уведомления",
-    showComponent: <div>уведомления</div>,
   },
   {
     svg: NavSvgs.CREATE,
     text: "создать ",
-    showComponent: <div>создать</div>,
   },
   {
     svg: NavSvgs.PROFILE,
     text: "профиль",
-    showComponent: <div>профиль</div>,
   },
 ];
 

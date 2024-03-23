@@ -1,6 +1,7 @@
-import { navigationAssets } from "./../../Components/Wrappers/NavigationWrapper";
 import { useState } from "react";
 import { NavigationWrapper } from "../../Components/Wrappers/NavigationWrapper";
+import {Outlet} from "react-router-dom";
+
 export const MainPage = () => {
   const [areaIndex, setAreaIndex] = useState(0);
   return (
@@ -9,7 +10,7 @@ export const MainPage = () => {
         activeNavIndex={areaIndex}
         setAreaIndex={setAreaIndex}
       />
-      {navigationAssets[areaIndex]?.showComponent}
+        <Outlet/>
     </div>
   );
 };
