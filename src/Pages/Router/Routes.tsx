@@ -16,8 +16,7 @@ import TaggedMePublications from "../../Components/Pulications/TaggedMePublicati
 
 const Router: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  // const userName = user ? user.userName : null
-  const userName = "user";
+  const userName = user ? user.userName : "user"
 
   return (
     <Routes>

@@ -8,15 +8,14 @@ import {
   savedPublicsIcon,
   taggedPublicsIcon,
 } from "../../Assets/Icons/svgIcons";
-import CameraImage from "../../Assets/Images/cameraImage.png";
 import _Button from "../UI/Button";
 import { Outlet, useNavigate } from "react-router-dom";
 
 interface UserProfileProps {
-  onClick: () => void;
+  userName: string;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ onClick }) => {
+const UserProfile: React.FC<UserProfileProps> = ({ userName }) => {
   const navigate = useNavigate();
 
   return (
@@ -29,19 +28,19 @@ const UserProfile: React.FC<UserProfileProps> = ({ onClick }) => {
         />
         <div className={styles.user_info_wrapper}>
           <div className={styles.username_with_buttons}>
-            <h3 className={styles.username}>user_name</h3>
+            <h3 className={styles.username}>{userName || "user_name"}</h3>
             <div className={styles.profile_buttons}>
               <_Button
                 background="#efefef"
                 color="black"
-                onClick={onClick}
+                onClick={() => navigate("edit")}
                 variant="contained"
                 children=<b>Редактировать</b>
               />
               <_Button
                 background="#efefef"
                 color="black"
-                onClick={onClick}
+                onClick={() => navigate("/archive/stories")}
                 variant="contained"
                 children=<b>Посмотреть архив</b>
               />
