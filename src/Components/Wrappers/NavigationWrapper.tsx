@@ -1,67 +1,74 @@
-import React, { useState } from "react";
+import React, {  useState,useEffect } from "react";
 import { NavigationItem } from "../UI/NavigationItem";
-import  { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { NavSvgs } from "../../Helpers/GetSvgHelper";
 import { GetSvg } from "../../Helpers/GetSvgHelper";
 import { Nav, NavFooter, NavLogo } from "../Styles/Navigation";
-import UserPage from "../../Pages/UserPage";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTypedSelector } from "../../CustomHooks/useTypedSelector";
 export const navigationAssets: {
   svg: NavSvgs;
   text: string;
-  showComponent: React.ReactNode;
+  url: string;
 }[] = [
   {
     svg: NavSvgs.MAIN,
     text: "главная",
-    showComponent: <div>главная</div>,
+    url: "/",
   },
   {
     svg: NavSvgs.SERCH,
     text: "поисковый запрос",
-    showComponent: <div>поисковый запрос</div>,
+    url: "/search",
   },
   {
     svg: NavSvgs.INTERESTING,
     text: "интересное",
-    showComponent: <div>интересное</div>,
+    url: "/interesting",
   },
   {
     svg: NavSvgs.REELS,
     text: "Reels",
-    showComponent: <div>REELS</div>,
+    url: "/reels",
   },
   {
     svg: NavSvgs.MESSAGE,
     text: "сообщения",
-    showComponent: <div>сообщения</div>,
+    url: "/message",
   },
   {
     svg: NavSvgs.NOTIFICATION,
     text: "уведомления",
-    showComponent: <div>уведомления</div>,
+    url: "/notification",
   },
   {
     svg: NavSvgs.CREATE,
     text: "создать ",
-    showComponent: <div>создать</div>,
+    url: "/content",
   },
   {
     svg: NavSvgs.PROFILE,
     text: "профиль",
-    showComponent: <UserPage/>,
+    url: "",
   },
 ];
 
-export const NavigationWrapper: React.FC<{
-  setAreaIndex: (i: number) => void;
-  activeNavIndex: number;
-}> = ({ activeNavIndex = 0, setAreaIndex }) => {
-  const [index, setIndex] = useState<number>(0);
-  const onClickSetIndex = (i: number) => {
-    setIndex(i);
-    setAreaIndex(i);
-  };
+export const NavigationWrapper: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeUrl, setUrl] = useState<string>(location.pathname);
   const [isDarkMode, setDarkMode] = useState(true);
+  const userName = useTypedSelector((s) => s.auth.user?.userName);
+  useEffect(() => {
+    let index = -1;
+    navigationAssets.filter((n, i) => {
+      if (n.svg == NavSvgs.PROFILE) {
+        index = i;
+      }
+    });
+    navigationAssets[index]!.url = `/${userName}` ?? "";
+  }, [userName]);
+
   return (
     <ThemeProvider theme={{ isDarkMode }}>
       <Nav $isDarkMode={isDarkMode}>
@@ -72,11 +79,12 @@ export const NavigationWrapper: React.FC<{
               <NavigationItem
                 key={i}
                 onClickSetIndex={(e) => {
-                  onClickSetIndex(i);
+                  navigate(as.url);
+                  setUrl(as.url);
                 }}
                 text={as.text}
                 svg={GetSvg(as.svg)}
-                isActive={i === index}
+                isActive={as.url === activeUrl}
               />
             );
           })}
@@ -85,11 +93,11 @@ export const NavigationWrapper: React.FC<{
           <NavigationItem
             key={navigationAssets.length}
             onClickSetIndex={(e) => {
-              onClickSetIndex(navigationAssets.length);
+              setUrl("settings");
             }}
             text="настройка"
             svg={GetSvg(NavSvgs.SETTING)}
-            isActive={index === navigationAssets.length}
+            isActive={"settings" === activeUrl}
           />
         </NavFooter>
       </Nav>

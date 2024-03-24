@@ -1,17 +1,23 @@
 import React, { ChangeEvent, useState } from "react";
-import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
+import FormCard, {TextWithLine} from "../../Components/Wrappers/FormCard";
 import _Input from "../../Components/UI/Input";
 import _Button from "../../Components/UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import type { RegisterModel } from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
-import { initialRegisterModel, initialValidErrors, validatorForm, validErrorsType } from "../../Helpers/FormHelpers";
-import { useDispatch, useSelector } from "react-redux";
-import { registerSuccess } from "../../Store/Actions/AuthActions";
-import { AuthState } from "../../Store/Types/State";
+import {
+  initialRegisterModel,
+  initialValidErrors,
+  validatorForm,
+  validErrorsType,
+} from "../../Components/FormHelpers";
+import { RegisterSuccessAct } from "../../Store/Actions/AuthActions";
+import axios from "axios";
 
+import { useAuthDispatch } from "../../Store/Actions/AuthActions";
 const RegisterPage: React.FC = () => {
+  const dispatch = useAuthDispatch();
   const { Register } = AccountService;
   const navigate = useNavigate();
   const [registerModel, setValueInput] =
@@ -19,10 +25,6 @@ const RegisterPage: React.FC = () => {
   const [validErrors, setValidErrors] =
     useState<validErrorsType>(initialValidErrors);
   const [serverError, setServerError] = useState<string>("");
-
-  const dispatch = useDispatch();
-  const a = useSelector((state: AuthState) => state);
-  console.log(a);
 
   const changeHandle = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -59,18 +61,29 @@ const RegisterPage: React.FC = () => {
       ...registerModel,
       userName: registerModel.userName.toLowerCase(),
     };
-
     try {
-      const response = await Register(postFormData);
-      if (response.status === 200 && "token" in response.data) {
-        console.log("Success! Your token:", response.data.token);
-        dispatch(registerSuccess(response.data));
+      const response = await Register(registerModel);
+      if (response.status === 200) {
+        console.log(response);
+        alert("success");
+        dispatch(
+          RegisterSuccessAct({
+            token: response.data.token,
+            user: response.data.userAccount,
+          })
+        );
         setServerError("");
-        navigate("birthday");
+        localStorage.setItem("accessToken", response.data.token);
+        navigate("/");
       }
-    } catch (e: any) {
-      console.log("Ошибка при регистрации:", e.response.data.message);
-      setServerError("Ошибка при регистрации: " + e.response.data.message);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        if (e.response?.status === 400) {
+          setServerError(e.response.data.message);
+        }
+      }
+
+      alert(e);
     }
   };
   return (
@@ -87,6 +100,7 @@ const RegisterPage: React.FC = () => {
           label="Электронный адрес"
           validError={Boolean(validErrors.emailAddress)}
           onBlur={blurHandle}
+          id="email"
         />
         {validErrors.emailAddress && (
           <ErrorText>{validErrors.emailAddress}</ErrorText>
@@ -95,6 +109,7 @@ const RegisterPage: React.FC = () => {
 
       <WrapperInputWithError>
         <_Input
+          id="fullName"
           type="text"
           name="fullName"
           onChange={changeHandle}
@@ -107,6 +122,7 @@ const RegisterPage: React.FC = () => {
       </WrapperInputWithError>
       <WrapperInputWithError>
         <_Input
+          id="userName"
           type="text"
           name="userName"
           onChange={changeHandle}
@@ -119,6 +135,7 @@ const RegisterPage: React.FC = () => {
       </WrapperInputWithError>
       <WrapperInputWithError>
         <_Input
+          id="password"
           type="password"
           name="password"
           onChange={changeHandle}
