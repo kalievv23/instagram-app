@@ -2,24 +2,25 @@ import React, { useState } from "react";
 import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
 import BirthdayIcon from "../../Assets/Icons/birthdayIcon.png";
 import styled from "styled-components";
-import { initialBirthdayValue, BirthdayType, months, currentDate, generateDaysInMonth } from "../../Components/FormHelpers";
+import { initialBirthdayValue, BirthdayType, months, currentDate, generateDaysInMonth } from "../../Helpers/FormHelpers";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import _Button from "../../Components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import {useSelector} from "react-redux";
-import {RootState} from "../../Store/Types/State";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Store/Types/State";
 
 const BirthdayPage: React.FC = () => {
   const navigate = useNavigate();
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
-  const [birthDate, setBirthDate] = useState<BirthdayType>(initialBirthdayValue);
+  const [birthDate, setBirthDate] =
+    useState<BirthdayType>(initialBirthdayValue);
   const { day, month, year } = birthDate;
   const daysInMonth = new Date(Number(year), Number(month), 0).getDate();
   const [daysInMonthState, setDaysInMonthState] = useState<number>(daysInMonth);
 
-  const user = useSelector((state: RootState) => state.auth.user)
-  const pathName = user ? user.userName : "sign-up"
+  const user = useSelector((state: RootState) => state.auth.user);
+  const pathName = user ? user.userName : "sign-up";
   const handleDateChange = (event: SelectChangeEvent): void => {
     const { name, value } = event.target;
     setBirthDate(() => ({
@@ -32,11 +33,11 @@ const BirthdayPage: React.FC = () => {
     if (name === "year") {
       generateDaysInMonth(month, value, setDaysInMonthState);
       const isAdult = Number(value) <= currentDate.getFullYear() - 12;
-      isAdult ? setButtonDisabled(false) : setButtonDisabled(true)
+      isAdult ? setButtonDisabled(false) : setButtonDisabled(true);
     }
   };
   const handleClick = (): void => {
-      navigate(`/${pathName}`)
+    navigate(`/${pathName}`);
   };
 
   return (

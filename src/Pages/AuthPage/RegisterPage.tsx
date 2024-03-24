@@ -1,15 +1,15 @@
 import React, { ChangeEvent, useState } from "react";
-import FormCard, {TextWithLine} from "../../Components/Wrappers/FormCard";
+import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
 import _Input from "../../Components/UI/Input";
 import _Button from "../../Components/UI/Button";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import type { RegisterModel } from "../../Domain/Models";
 import { AccountService } from "../../ApiServices/AccountService";
-import { initialRegisterModel, initialValidErrors, validatorForm, validErrorsType } from "../../Components/FormHelpers";
-import {useDispatch, useSelector} from "react-redux";
-import {registerSuccess} from "../../Store/Actions/AuthActions";
-import {AuthState} from "../../Store/Types/State";
+import { initialRegisterModel, initialValidErrors, validatorForm, validErrorsType } from "../../Helpers/FormHelpers";
+import { useDispatch, useSelector } from "react-redux";
+import { registerSuccess } from "../../Store/Actions/AuthActions";
+import { AuthState } from "../../Store/Types/State";
 
 const RegisterPage: React.FC = () => {
   const { Register } = AccountService;
@@ -18,11 +18,11 @@ const RegisterPage: React.FC = () => {
     useState<RegisterModel>(initialRegisterModel);
   const [validErrors, setValidErrors] =
     useState<validErrorsType>(initialValidErrors);
-  const [serverError, setServerError] = useState<string>("")
+  const [serverError, setServerError] = useState<string>("");
 
-  const dispatch = useDispatch()
-  const a = useSelector((state: AuthState) => state)
-  console.log(a)
+  const dispatch = useDispatch();
+  const a = useSelector((state: AuthState) => state);
+  console.log(a);
 
   const changeHandle = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -57,20 +57,20 @@ const RegisterPage: React.FC = () => {
 
     const postFormData: RegisterModel = {
       ...registerModel,
-      userName: registerModel.userName.toLowerCase()
-    }
+      userName: registerModel.userName.toLowerCase(),
+    };
 
     try {
       const response = await Register(postFormData);
       if (response.status === 200 && "token" in response.data) {
         console.log("Success! Your token:", response.data.token);
-        dispatch(registerSuccess(response.data))
-        setServerError("")
-        navigate("birthday")
+        dispatch(registerSuccess(response.data));
+        setServerError("");
+        navigate("birthday");
       }
     } catch (e: any) {
-    console.log("Ошибка при регистрации:", e.response.data.message);
-    setServerError("Ошибка при регистрации: " + e.response.data.message);
+      console.log("Ошибка при регистрации:", e.response.data.message);
+      setServerError("Ошибка при регистрации: " + e.response.data.message);
     }
   };
   return (
@@ -153,7 +153,7 @@ const RegisterPage: React.FC = () => {
         Регистрация
       </_Button>
       {serverError && <ErrorText>{serverError}</ErrorText>}
-      <TextWithLine/>
+      <TextWithLine />
       <LoginText>
         Есть аккаунт?
         <span onClick={() => navigate("/")}> Вход</span>

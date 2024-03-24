@@ -8,7 +8,7 @@ import { LoginModel } from "../../Domain/Models/LoginModel";
 import { AccountService } from "../../ApiServices/AccountService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../Store/Actions/AuthActions";
-import { networkErrorText } from "../../Components/FormHelpers";
+import { networkErrorText } from "../../Helpers/FormHelpers";
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
       const response = await Login(loginModel);
       if (response.status === 200) {
         dispatch(loginSuccess(response.data));
-        navigate(`${response.data.user.userName}`);
+        navigate(`/${response.data.user.userName}`);
       }
     } catch (error: any) {
       if (error.response) {
@@ -74,7 +74,7 @@ const LoginPage: React.FC = () => {
         id={"userName"}
       />
       <_Input
-          id={"userPassword"}
+        id={"userPassword"}
         type="password"
         label="Пароль"
         onChange={changeHandle}

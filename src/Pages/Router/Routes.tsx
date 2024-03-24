@@ -7,7 +7,6 @@ import ErrorPage from "../ErrorPage";
 import BirthdayPage from "../AuthPage/BirthdayPage";
 import ConfirmationPage from "../AuthPage/ConfirmationPage";
 import UserPage from "../UserPage";
-import { MainPage } from "../Main/MainPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Store/Types/State";
 import MyPublications from "../../Components/Pulications/MyPublications";
@@ -16,7 +15,7 @@ import TaggedMePublications from "../../Components/Pulications/TaggedMePublicati
 
 const Router: React.FC = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const userName = user ? user.userName : "user"
+  const userName = user ? user.userName : "user";
 
   return (
     <Routes>
@@ -24,20 +23,12 @@ const Router: React.FC = () => {
       <Route path="/sign-up" element={<RegisterPage />} />
       <Route path="/sign-up/birthday" element={<BirthdayPage />} />
       <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
-      <Route path="/home" element={<HomePage />} />
-      <Route path="/user-name" element={<UserPage />} />
-      <Route path="/" element={<MainPage />} />
-      <Route path="*" element={<ErrorPage />} />
-      <Route path="/sign-up/birthday" element={<BirthdayPage />} />
-      <Route path="/sign-up/confirmation" element={<ConfirmationPage />} />
-      <Route path="/home" element={<HomePage />} />
-      <Route path={`/${userName}`} element={<UserPage />}>
-        <Route path="" element={<MyPublications />} />
-        <Route path={`/${userName}/saved`} element={<SavedPublications />} />
-        <Route
-          path={`/${userName}/tagged`}
-          element={<TaggedMePublications />}
-        />
+      <Route path="/" element={<HomePage />}>
+        <Route path={`/${userName}`} element={<UserPage />}>
+          <Route path="" element={<MyPublications />} />
+          <Route path="saved" element={<SavedPublications />} />
+          <Route path="tagged" element={<TaggedMePublications />} />
+        </Route>
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>
