@@ -12,7 +12,7 @@ import _Button from "../UI/Button";
 import { Outlet, useNavigate } from "react-router-dom";
 
 interface UserProfileProps {
-  userName: string;
+  userName: string | null;
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ userName }) => {
@@ -31,19 +31,21 @@ const UserProfile: React.FC<UserProfileProps> = ({ userName }) => {
             <h3 className={styles.username}>{userName || "user_name"}</h3>
             <div className={styles.profile_buttons}>
               <_Button
-                background="#efefef"
-                color="black"
-                onClick={() => navigate("edit")}
-                variant="contained"
-                children=<b>Редактировать</b>
-              />
+                  background={"#efefef"}
+                  color="black"
+                  onClick={() => navigate("edit")}
+                  variant="contained"
+              >
+                <b>Редактировать</b>
+              </_Button>
               <_Button
-                background="#efefef"
-                color="black"
-                onClick={() => navigate("/archive/stories")}
-                variant="contained"
-                children=<b>Посмотреть архив</b>
-              />
+                  background={"#efefef"}
+                  color="black"
+                  onClick={() => navigate("/archive/stories")}
+                  variant="contained"
+              >
+                <b>Посмотреть архив</b>
+              </_Button>
             </div>
             <div className={styles.settingIcon}>{settingIcon}</div>
           </div>

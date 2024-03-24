@@ -1,19 +1,26 @@
-// export interface User {
-//   userName: string;
-//   accountInformation: object;
-//   comments: [];
-//   contents: object;
-//   likeOfComments: null | number;
-//   likeOfContents: null | number;
-//   subscribers: [];
-//   userEmail: string;
-//   userId: string;
-//   password: string;
-// }
+interface AccountInformation {
+  contentCount: number;
+  subscribersCount: number;
+  subscriptionsCount: number;
+  id: number;
+}
+
+export interface User {
+  userName: string;
+  accountInformation: AccountInformation;
+  comments: null | any[];
+  contents: any[];
+  likeOfComments: null | any[];
+  likeOfContents: null | any[];
+  subscribers: any[];
+  userEmail: string;
+  userId: string;
+  password: string;
+}
 
 export interface AuthState {
   token: string | null;
-  user: object | null;
+  user: User | null;
   isAuthenticated: boolean;
 }
 
