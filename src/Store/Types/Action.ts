@@ -1,19 +1,20 @@
-import {LOGIN_SUCCESS, REGISTER_SUCCESS} from "../Actions/ActionTypes";
+// import { AuthActionTypes } from "../Actions/ActionTypes";
 
-export interface RegisterSuccessAction {
-    type: typeof REGISTER_SUCCESS;
-    payload: {
-        user: object;
-        token: string;
-    }
-}
+// import type { UserAccount } from "../../Domain/Models/UserAccount";
+// export interface RegisterSuccessAction {
+//   type: AuthActionTypes;
+//   payload: {
+//     user: UserAccount;
+//     token: string;
+//   };
+// }
 
-export interface LoginSuccessAction {
-    type: typeof LOGIN_SUCCESS;
-    payload: {
-        user: object;
-        token: string;
-    }
-}
+// export interface LoginSuccessAction {
+//   type: AuthActionTypes;
+//   payload: {
+//     user: UserAccount;
+//     token: string;
+//   };
+// }
 
-export type AuthAction = RegisterSuccessAction | LoginSuccessAction
+// export type AuthAction = RegisterSuccessAction | LoginSuccessAction;

@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../Store/Types/State";
+import { RootState } from "../Store/Reducers";
 import UserProfile from "../Components/UserProfile/UserProfile";
 
 const UserPage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const userName = user ? user.userName : null;
-  return <UserProfile userName={userName}/>;
+  return <UserProfile userName={user?.userName ?? ""} />;
 };
 
 export default UserPage;

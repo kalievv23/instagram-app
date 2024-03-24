@@ -6,12 +6,11 @@ import { useNavigate } from "react-router-dom";
 import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
 import { LoginModel } from "../../Domain/Models/LoginModel";
 import { AccountService } from "../../ApiServices/AccountService";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../Store/Actions/AuthActions";
 import { networkErrorText } from "../../Components/FormHelpers";
-
+import { LoginSuccessAct } from "../../Store/Actions/AuthActions";
+import { useAuthDispatch } from "../../Store/Actions/AuthActions";
 const LoginPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAuthDispatch();
   const navigate = useNavigate();
   const [loginModel, setValueInput] = useState<LoginModel>({
     emailAddressOrUserName: "",
@@ -49,8 +48,16 @@ const LoginPage: React.FC = () => {
     try {
       const response = await Login(loginModel);
       if (response.status === 200) {
-        dispatch(loginSuccess(response.data));
-        navigate(`${response.data.user.userName}`);
+        console.log(response.data.token);
+
+        localStorage.setItem("accessToken", response.data.token);
+        dispatch(
+          LoginSuccessAct({
+            token: response.data.token,
+            user: response.data.userAccount,
+          })
+        );
+        navigate(`/`);
       }
     } catch (error: any) {
       if (error.response) {
@@ -74,7 +81,7 @@ const LoginPage: React.FC = () => {
         id={"userName"}
       />
       <_Input
-          id={"userPassword"}
+        id={"userPassword"}
         type="password"
         label="Пароль"
         onChange={changeHandle}
