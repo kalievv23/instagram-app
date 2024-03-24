@@ -4,6 +4,7 @@ import  { ThemeProvider } from "styled-components";
 import { NavSvgs } from "../../Helpers/GetSvgHelper";
 import { GetSvg } from "../../Helpers/GetSvgHelper";
 import { Nav, NavFooter, NavLogo } from "../Styles/Navigation";
+import UserPage from "../../Pages/UserPage";
 export const navigationAssets: {
   svg: NavSvgs;
   text: string;
@@ -47,7 +48,7 @@ export const navigationAssets: {
   {
     svg: NavSvgs.PROFILE,
     text: "профиль",
-    showComponent: <div>профиль</div>,
+    showComponent: <UserPage/>,
   },
 ];
 
