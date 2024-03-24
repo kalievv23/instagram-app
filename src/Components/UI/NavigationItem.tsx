@@ -14,6 +14,7 @@ const NavBlock = styled.div<{ onClick: (i: number) => void }>`
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
+  cursor: pointer;
 `;
 const NavImg = styled.div`
   width: 24px;
@@ -24,7 +25,7 @@ const NavImg = styled.div`
 `;
 const NavTitle = styled.div<{ $isActive?: boolean }>`
   font-size: 14px;
-  line-height:20px;
+  line-height: 20px;
   font-weight: ${(props) => (props.$isActive ? 800 : 400)};
   color: ${(props) => (!props.theme.isDarkMode ? "#000" : "#fff")};
   text-transform: capitalize;
