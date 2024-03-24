@@ -9,6 +9,7 @@ import { AccountService } from "../../ApiServices/AccountService";
 import { networkErrorText } from "../../Components/FormHelpers";
 import { LoginSuccessAct } from "../../Store/Actions/AuthActions";
 import { useAuthDispatch } from "../../Store/Actions/AuthActions";
+import {AxiosError} from "axios";
 const LoginPage: React.FC = () => {
   const dispatch = useAuthDispatch();
   const navigate = useNavigate();
@@ -59,9 +60,11 @@ const LoginPage: React.FC = () => {
         );
         navigate(`/`);
       }
-    } catch (error: any) {
-      if (error.response) {
-        setServerError(error.response.data.message);
+    } catch (error) {
+      if(error instanceof  AxiosError){
+          if (error.response) {
+              setServerError(error.response.data.message);
+          }
       } else {
         setServerError(networkErrorText);
       }
