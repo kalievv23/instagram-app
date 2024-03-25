@@ -17,4 +17,4 @@
 //   };
 // }
 
-// export type AuthAction = RegisterSuccessAction | LoginSuccessAction;
+export type AuthAction = RegisterSuccessAction | LoginSuccessAction
