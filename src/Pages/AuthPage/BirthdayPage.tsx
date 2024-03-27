@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import FormCard, { TextWithLine } from "../../Components/Wrappers/FormCard";
 import BirthdayIcon from "../../Assets/Icons/birthdayIcon.png";
 import styled from "styled-components";
-import { initialBirthdayValue, BirthdayType, months, currentDate, generateDaysInMonth } from "../../Helpers/FormHelpers";
+import { initialBirthdayValue, BirthdayType, months, currentDate, generateDaysInMonth } from "../../Components/FormHelpers";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import _Button from "../../Components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Store/Types/State";
+import {useTypedSelector} from "../../CustomHooks/useTypedSelector";
 
 const BirthdayPage: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ const BirthdayPage: React.FC = () => {
   const daysInMonth = new Date(Number(year), Number(month), 0).getDate();
   const [daysInMonthState, setDaysInMonthState] = useState<number>(daysInMonth);
 
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useTypedSelector((state) => state.auth.user);
   const pathName = user ? user.userName : "sign-up";
   const handleDateChange = (event: SelectChangeEvent): void => {
     const { name, value } = event.target;
